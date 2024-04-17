@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { BsStarFill } from 'react-icons/bs';
 import { Image } from 'react-bootstrap';
-import StarRating from './StarRating'; // Import the StarRating component
-import ReviewSection from './ReviewSection'; // Import the ReviewSection component
+import StarRating from './StarRating'; 
+import ReviewSection from './ReviewSection';
 
 class MovieDetail extends Component {
     render() {
