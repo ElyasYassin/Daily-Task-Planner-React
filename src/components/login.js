@@ -1,58 +1,49 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom'; 
 import { submitLogin } from '../actions/authActions';
-import { connect } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import './LoginForm.css';
 
-class Login extends Component {
+function Login() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-    constructor(props) {
-        super(props);
-        this.updateDetails = this.updateDetails.bind(this);
-        this.login = this.login.bind(this);
-
-        this.state = {
-            details:{
-                username: '',
-                password: ''
-            }
-        };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatch(submitLogin({username, password }))
+      history.push('/tasks'); 
+    } catch (err) {
+      setError('Invalid username or password');
     }
+  };
 
-    updateDetails(event){
-        let updateDetails = Object.assign({}, this.state.details);
+  const DirectToRegister = async (e) => {
+    e.preventDefault();
+    history.push('/signup'); 
+  };
 
-        updateDetails[event.target.id] = event.target.value;
-        this.setState({
-            details: updateDetails
-        });
-    }
-
-    login() {
-        const {dispatch} = this.props;
-        dispatch(submitLogin(this.state.details));
-    }
-
-    render(){
-        return (
-            <Form className='form-horizontal'>
-                <Form.Group controlId="username">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control onChange={this.updateDetails} value={this.state.details.username} type="email" placeholder="Enter email" />
-                </Form.Group>
-
-                <Form.Group controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control onChange={this.updateDetails} value={this.state.details.password}  type="password" placeholder="Password" />
-                </Form.Group>
-                <Button onClick={this.login}>Sign in</Button>
-            </Form>
-        )
-    }
+  return (
+    <div className='wrapper'>
+      <h1>Login</h1>
+      <form onSubmit={handleLogin}>
+        <div className='input-box'>
+          <input type="text" placeholder="Username" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+        </div>
+        <div className='input-box'>
+          <input type="password" placeholder="Password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+          <button onClick={handleLogin} type="submit">Login</button>
+        {error && <div>{error}</div>}
+        <div className='register-link'>
+          <p> If you don't have an account  ->  <a href="http://localhost:3000/signup">Register</a></p>
+        </div>
+      </form>
+    </div>
+  )
 }
 
-const mapStateToProps = state => {
-    return {
-    }
-}
-
-export default connect(mapStateToProps)(Login);
+export default Login;
