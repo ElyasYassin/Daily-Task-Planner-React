@@ -39,7 +39,7 @@ function Login() {
           <button onClick={handleLogin} type="submit">Login</button>
         {error && <div>{error}</div>}
         <div className='register-link'>
-          <p> If you don't have an account  ->  <a href="http://localhost:3000/signup">Register</a></p>
+          <p> If you don't have an account --  <a href="http://localhost:3000/signup">Register</a></p>
         </div>
       </form>
     </div>
